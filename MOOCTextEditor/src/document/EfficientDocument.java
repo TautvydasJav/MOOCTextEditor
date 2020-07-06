@@ -54,6 +54,20 @@ public class EfficientDocument extends Document {
 		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
+		for (String dop : tokens)
+		{
+			if (isWord(dop))
+			{
+				this.numWords++;
+				this.numSyllables += countSyllables(dop);
+			}
+			else
+			{
+				this.numSentences++;
+			}
+		}
+		if (tokens.size() != 0 && isWord(tokens.get(tokens.size() - 1)))
+			this.numSentences++;
 	}
 
 	
@@ -72,17 +86,8 @@ public class EfficientDocument extends Document {
 	 */
 	@Override
 	public int getNumSentences() {
-		int count = 0;
-		String text = getText();
-		// checking if string contains letters 
-		if(text.matches(".*[^a-z].*") == false)
-			return 0;
-		
-		String[] sentenceList = text.split("[!?.]+"); 
-        
-        count += sentenceList.length; 
-        return count;
 		//TODO: write this method.  Hint: It's simple
+		return (this.numSentences);
 	}
 
 	
@@ -103,17 +108,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-		int count = 0;
-		String text = getText();
-		// checking if string contains letters 
-		if(text.matches(".*[^a-z].*") == false)
-			return 0;
-	
-		String[] wordList = text.split("[0-9!?.: ]+"); 
-		
-        
-        count += wordList.length; 
-        return count;
+		return (this.numWords);
 	}
 
 
@@ -135,13 +130,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-		List<String> tokens = getTokens("[a-zA-Z]+");
-		int totalSyllables = 0;
-		for (String word : tokens)
-		{
-			totalSyllables += countSyllables(word);
-		}
-		return totalSyllables;
+		return (this.numSyllables);
 	}
 	
 	// Can be used for testing
@@ -164,7 +153,6 @@ public class EfficientDocument extends Document {
 		testCase(new EfficientDocument("Sentences?!"), 3, 1, 1);
 		testCase(new EfficientDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
-		
 	}
 	
 

@@ -1,13 +1,15 @@
 package document;
 
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /** A class for timing the EfficientDocument and BasicDocument classes
  * 
  * @author UC San Diego Intermediate Programming MOOC team
- *
  */
 
 public class DocumentBenchmarking {
@@ -37,9 +39,53 @@ public class DocumentBenchmarking {
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
+		List<Integer> BasicdocBench = new ArrayList();
+		List<Integer> EfficdocBench = new ArrayList();
+		double Fleschscore;
+					
+		//String text = new String(getStringFromFile(textfile, increment));
+		//EfficientDocument fastdoc = new EfficientDocument(text);
+		
+		// basic doc
 		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
 				numToCheck += increment)
 		{
+			System.out.print(numToCheck + "\t");
+			
+			/* 2. Read numToCheck characters from the file into a String */
+			String testText = getStringFromFile(textfile, numToCheck);
+			double tmpFlesch = 0;
+			
+			/*  3. Time a loop that runs trials times (trials is the variable above) that:
+			 *  a. Creates a BasicDocument 
+			 *  b. Calls fleshScore on this document */
+			
+			long startTimeBd = System.nanoTime();
+			for(int i = 0; i < trials; i++) {
+				BasicDocument bd = new BasicDocument(testText);
+				tmpFlesch = bd.getFleschScore();
+			}
+			long endTimeBd = System.nanoTime();
+			long durationBd = ((endTimeBd - startTimeBd)/1000000);			
+			System.out.print(durationBd + "\t");
+			
+			/*  5. Time a loop that runs trials times (trials is the variable above) that:
+			 *     a. Creates an EfficientDocument 
+			 *     b. Calls fleshScore on this document */		
+
+			long startTimeEd = System.nanoTime();
+			for(int i = 0; i < trials; i++) {
+				EfficientDocument ed = new EfficientDocument(testText);
+				tmpFlesch = ed.getFleschScore();
+			}
+			long endTimeEd = System.nanoTime();
+			long durationEd = ((endTimeEd - startTimeEd)/1000000);			
+			System.out.print(durationEd + "\n");
+		}
+			
+			
+			
+			
 			// numToCheck holds the number of characters that you should read from the 
 			// file to create both a BasicDocument and an EfficientDocument.  
 			
@@ -59,7 +105,6 @@ public class DocumentBenchmarking {
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
 			 */  
 			 
-		}
 	
 	}
 	

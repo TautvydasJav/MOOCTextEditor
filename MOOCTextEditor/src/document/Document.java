@@ -42,28 +42,12 @@ public abstract class Document {
 		return tokens;
 	}
 	
-	/** This is a helper function that returns the number of syllables
-	 * in a word.  You should write this and use it in your 
-	 * BasicDocument class.
-	 * 
-	 * You will probably NOT need to add a countWords or a countSentences 
-	 * method here.  The reason we put countSyllables here because we'll 
-	 * use it again next week when we implement the EfficientDocument class.
-	 * 
-	 * For reasons of efficiency you should not create Matcher or Pattern 
-	 * objects inside this method. Just use a loop to loop through the 
-	 * characters in the string and write your own logic for counting 
-	 * syllables.
-	 * 
-	 * @param word  The word to count the syllables in
-	 * @return The number of syllables in the given word, according to 
-	 * this rule: Each contiguous sequence of one or more vowels is a syllable, 
-	 *       with the following exception: a lone "e" at the end of a word 
-	 *       is not considered a syllable unless the word has no other syllables. 
-	 *       You should consider y a vowel.
-	 */
-	protected int countSyllables(String word)
+	// This is a helper function that returns the number of syllables
+	// in a word.  You should write this and use it in your 
+	// BasicDocument class.
+	protected static int countSyllables(String word)
 	{
+	    //System.out.print("Counting syllables in " + word + "...");
 		int numSyllables = 0;
 		boolean newSyllable = true;
 		String vowels = "aeiouy";
@@ -84,9 +68,6 @@ public abstract class Document {
 		}
 		//System.out.println( "found " + numSyllables);
 		return numSyllables;
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 2) and 
-	    // EfficientDocument (module 3).
 	}
 	
 	/** A method for testing
@@ -149,21 +130,10 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-	 double Fleschscore = 0;
-	 int words = this.getNumWords();
-	 int sentences = this.getNumSentences();
-	 int syllables = this.getNumSyllables();
-	 double WordsSentences = 0;
-	 double SyllablesWords = 0;
-	 System.out.println(this.getText());
-	 WordsSentences = (double)words/(double)sentences;
-	 SyllablesWords = (double)syllables/(double)words;
-	 Fleschscore = 206.835 - 1.015*WordsSentences - 84.6*SyllablesWords;
+		double wordCount = (double)getNumWords();
+		return 206.835 - (1.015 * ((wordCount)/getNumSentences())) 
+				- (84.6 * (((double)getNumSyllables())/wordCount));
 	
-	 //Fleschscore = 206.835 - 1.015*((double)this.getNumWords()/(double)this.getNumSentences()) - 84.6*((double)this.getNumSyllables()/(double)this.getNumWords());
-	    // TODO: You will play with this method in week 1, and 
-		// then implement it in week 2
-	    return Fleschscore;
 	}
 	
 	
