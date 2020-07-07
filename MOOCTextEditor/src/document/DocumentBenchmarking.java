@@ -39,9 +39,6 @@ public class DocumentBenchmarking {
 		// TODO: Fill in the rest of this method so that it runs two loops
 		// and prints out timing results as described in the assignment 
 		// instructions and following the pseudocode below.
-		List<Integer> BasicdocBench = new ArrayList();
-		List<Integer> EfficdocBench = new ArrayList();
-		double Fleschscore;
 					
 		//String text = new String(getStringFromFile(textfile, increment));
 		//EfficientDocument fastdoc = new EfficientDocument(text);
@@ -53,7 +50,7 @@ public class DocumentBenchmarking {
 			System.out.print(numToCheck + "\t");
 			
 			/* 2. Read numToCheck characters from the file into a String */
-			String testText = getStringFromFile(textfile, numToCheck);
+			String test = getStringFromFile(textfile, numToCheck);
 			double tmpFlesch = 0;
 			
 			/*  3. Time a loop that runs trials times (trials is the variable above) that:
@@ -62,8 +59,8 @@ public class DocumentBenchmarking {
 			
 			long startTimeBd = System.nanoTime();
 			for(int i = 0; i < trials; i++) {
-				BasicDocument bd = new BasicDocument(testText);
-				tmpFlesch = bd.getFleschScore();
+				BasicDocument b = new BasicDocument(test);
+				tmpFlesch = b.getFleschScore();
 			}
 			long endTimeBd = System.nanoTime();
 			long durationBd = ((endTimeBd - startTimeBd)/1000000);			
@@ -75,8 +72,8 @@ public class DocumentBenchmarking {
 
 			long startTimeEd = System.nanoTime();
 			for(int i = 0; i < trials; i++) {
-				EfficientDocument ed = new EfficientDocument(testText);
-				tmpFlesch = ed.getFleschScore();
+				EfficientDocument e = new EfficientDocument(test);
+				tmpFlesch = e.getFleschScore();
 			}
 			long endTimeEd = System.nanoTime();
 			long durationEd = ((endTimeEd - startTimeEd)/1000000);			
