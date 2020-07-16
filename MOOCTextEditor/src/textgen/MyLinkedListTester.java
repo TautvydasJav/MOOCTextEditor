@@ -11,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author UC San Diego MOOC team
- *
+ * @author UC San Diego MOOC team *
  */
 public class MyLinkedListTester {
 
