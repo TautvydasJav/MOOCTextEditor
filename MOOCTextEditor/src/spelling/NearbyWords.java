@@ -76,7 +76,21 @@ public class NearbyWords implements SpellingSuggest {
 	 * @return
 	 */
 	public void insertions(String s, List<String> currentList, boolean wordsOnly ) {
-		// TODO: Implement this method  
+		
+		for(int i = 0; i < s.length()+1; i++) {
+			for(int charCode = (int)'a'; charCode <= (int)'z'; charCode++) {
+				StringBuffer insertion = new StringBuffer(s);
+				insertion.insert(i, (char)charCode);
+				
+				if(!currentList.contains(insertion.toString()) && 
+						(!wordsOnly||dict.isWord(insertion.toString())) &&
+						!s.equals(insertion.toString())) {
+					currentList.add(insertion.toString());
+				}
+			}
+
+		}
+				// TODO: Implement this method  
 	}
 
 	/** Add to the currentList Strings that are one character deletion away
@@ -87,6 +101,16 @@ public class NearbyWords implements SpellingSuggest {
 	 * @return
 	 */
 	public void deletions(String s, List<String> currentList, boolean wordsOnly ) {
+		for(int i = 0; i < s.length(); i++) {
+				StringBuffer deletion = new StringBuffer(s);
+				deletion.deleteCharAt(i);
+				
+				if(!currentList.contains(deletion.toString()) && 
+						(!wordsOnly||dict.isWord(deletion.toString())) &&
+						!s.equals(deletion.toString())) {
+					currentList.add(deletion.toString());
+				}
+		}
 		// TODO: Implement this method
 	}
 
@@ -109,6 +133,34 @@ public class NearbyWords implements SpellingSuggest {
 		// insert first node
 		queue.add(word);
 		visited.add(word);
+		boolean optimize = true;
+		
+		while(queue.size()>0 && retList.size() < numSuggestions) {
+			String misspelled = queue.remove(0);
+			
+			List<String> neighbors = distanceOne(misspelled, true);
+			
+			for(String n : neighbors) {
+				// if n is not visited
+				if (!visited.contains(n)){
+					// add to list of visited & back of the queue
+					visited.add(n);
+					if (optimize && dict.isWord(n)) {
+						// check if it's a word and add
+						queue.add(n);
+					} else {
+						// just add
+						queue.add(n);
+					}
+					
+					// if n is a word in the dictionary
+					if (dict.isWord(n)) {
+						// add n to the list of words to return
+						retList.add(n);
+					}
+				}
+			}
+		}
 					
 		// TODO: Implement the remainder of this method, see assignment for algorithm
 		
